@@ -6,81 +6,28 @@
 #include <time.h>
 
 #define TAILLE_MAX 100 // Tableau de taille 1000
- 
 
 int Nbrcoups = 10;
-int NbrMots =0;
-int LongueurMot=0;
+int LongueurMot = 0;
 
-char Mot[TAILLE_MAX];
-char MotCache[TAILLE_MAX] ; 
-char ChangeMotCache[TAILLE_MAX] ;
+char *Mot = NULL;
+char *MotCache = NULL;
+char *ChangeMotCache = NULL;
 
 char Lettre;
 
 char lireCaractere();
+int CompterMotFichier();
+int TirageAleatoire(NbrMots);
+void ChoisirMot(RandomChooseMot);
+
 
 int main(int argc, char *argv[])
 {
-    time_t t; //for random function
 
-    FILE* fichier = NULL;
-
-    char chaine[TAILLE_MAX] = ""; // Chaîne vide de taille TAILLE_MAX
-
-    fichier = fopen("src/Dictionnaire_Pendu.txt", "r");
- 
-    if (fichier != NULL)
-    {
-        while (fgets(chaine, TAILLE_MAX, fichier) != NULL) // On lit le fichier tant qu'on ne reçoit pas d'erreur (NULL)
-        {
-            NbrMots++;
-        }
- 
-        // fclose(fichier);
-    }
-
-
- /* Intializes random number generator */
-    srand((unsigned) time(&t));
-    int RandomChooseMot=rand() % NbrMots;
-
-    rewind(fichier);
-
-    NbrMots=0;
-
-    if (fichier != NULL)
-    {
-        while (fgets(chaine, TAILLE_MAX, fichier) != NULL) // On lit le fichier tant qu'on ne reçoit pas d'erreur (NULL)
-        {
-            NbrMots++;
-            if (NbrMots==RandomChooseMot)
-            {
-                strcpy(Mot, chaine);
-                LongueurMot=strlen(Mot);
-
-                for (int i=0; i<LongueurMot;i++)
-                {
-                    if (i<LongueurMot-1)
-                    {
-                    MotCache[i]='*';
-                    ChangeMotCache[i]='*';
-                    }
-                    else
-                    {
-                    MotCache[i]='\n';
-                    ChangeMotCache[i]='\n';
-                    }
-                    
-             
-
-                }
-            }
-        }
- 
-        fclose(fichier);
-    }
-
+    int NbrMots = CompterMotFichier();
+    int RandomChooseMot = TirageAleatoire(NbrMots);
+    void ChoisirMot(RandomChooseMot);
 
     while (Nbrcoups > 0)
     {
@@ -139,4 +86,84 @@ char lireCaractere()
         ;
 
     return caractere; // On retourne le premier caractère qu'on a lu
+}
+
+int CompterMotFichier()
+{
+
+    int NbrMots = 0;
+
+    FILE *fichier = NULL;
+
+    char chaine[TAILLE_MAX] = ""; // Chaîne vide de taille TAILLE_MAX
+
+    fichier = fopen("src/Dictionnaire_Pendu.txt", "r");
+
+    if (fichier != NULL)
+    {
+        while (fgets(chaine, TAILLE_MAX, fichier) != NULL) // On lit le fichier tant qu'on ne reçoit pas d'erreur (NULL)
+        {
+            NbrMots++;
+        }
+
+        fclose(fichier);
+    }
+
+    return NbrMots;
+}
+
+int TirageAleatoire(NbrMots)
+{
+    /* Intializes random number generator */
+    time_t t; //for random function
+    srand((unsigned)time(&t));
+
+    int RandomChooseMot = rand() % NbrMots;
+    return RandomChooseMot;
+}
+
+void ChoisirMot(RandomChooseMot)
+{
+    int NbrMots = 0;
+
+    FILE *fichier = NULL;
+
+    char chaine[TAILLE_MAX] = ""; // Chaîne vide de taille TAILLE_MAX
+                                  //char chaine;
+
+    fichier = fopen("src/Dictionnaire_Pendu.txt", "r");
+
+    if (fichier != NULL)
+    {
+        while (fgets(chaine, TAILLE_MAX, fichier) != NULL) // On lit le fichier tant qu'on ne reçoit pas d'erreur (NULL)
+        {
+            NbrMots++;
+            if (NbrMots == RandomChooseMot)
+            {
+                LongueurMot = strlen(chaine);
+                Mot = malloc(LongueurMot * sizeof(char));            // On alloue de la mémoire pour le tableau
+                MotCache = malloc(LongueurMot * sizeof(char));       // On alloue de la mémoire pour le tableau
+                ChangeMotCache = malloc(LongueurMot * sizeof(char)); // On alloue de la mémoire pour le tableau
+
+                strncpy(Mot, chaine, LongueurMot);
+                printf("taille memoire pour le mot: %d", sizeof(Mot));
+
+                for (int i = 0; i < LongueurMot; i++)
+                {
+                    if (i < LongueurMot - 1)
+                    {
+                        MotCache[i] = '*';
+                        ChangeMotCache[i] = '*';
+                    }
+                    else
+                    {
+                        MotCache[i] = '\n';
+                        ChangeMotCache[i] = '\n';
+                    }
+                }
+            }
+        }
+
+        fclose(fichier);
+    }
 }
