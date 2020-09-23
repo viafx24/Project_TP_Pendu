@@ -12,22 +12,25 @@ int LongueurMot = 0;
 
 char *Mot = NULL;
 char *MotCache = NULL;
-char *ChangeMotCache = NULL;
+char *ChangeMotCache = NULL ;
 
 char Lettre;
 
 char lireCaractere();
 int CompterMotFichier();
-int TirageAleatoire(NbrMots);
-void ChoisirMot(RandomChooseMot);
+int TirageAleatoire(int NbrMots);
+void ChoisirMot(int RandomChooseMot);
 
 
 int main(int argc, char *argv[])
 {
 
-    int NbrMots = CompterMotFichier();
-    int RandomChooseMot = TirageAleatoire(NbrMots);
-    void ChoisirMot(RandomChooseMot);
+    int NbrMots;
+    int RandomChooseMot;
+
+    NbrMots = CompterMotFichier();
+    RandomChooseMot = TirageAleatoire(NbrMots);
+    ChoisirMot(RandomChooseMot);
 
     while (Nbrcoups > 0)
     {
@@ -112,17 +115,17 @@ int CompterMotFichier()
     return NbrMots;
 }
 
-int TirageAleatoire(NbrMots)
+int TirageAleatoire(int NbrMots)
 {
     /* Intializes random number generator */
     time_t t; //for random function
     srand((unsigned)time(&t));
-
-    int RandomChooseMot = rand() % NbrMots;
+    int RandomChooseMot;
+    RandomChooseMot = rand() % NbrMots;
     return RandomChooseMot;
 }
 
-void ChoisirMot(RandomChooseMot)
+void ChoisirMot(int RandomChooseMot)
 {
     int NbrMots = 0;
 
@@ -145,8 +148,8 @@ void ChoisirMot(RandomChooseMot)
                 MotCache = malloc(LongueurMot * sizeof(char));       // On alloue de la mémoire pour le tableau
                 ChangeMotCache = malloc(LongueurMot * sizeof(char)); // On alloue de la mémoire pour le tableau
 
-                strncpy(Mot, chaine, LongueurMot);
-                printf("taille memoire pour le mot: %d", sizeof(Mot));
+                strncpy(Mot, chaine, LongueurMot-1);
+                Mot[LongueurMot+1]='\000';
 
                 for (int i = 0; i < LongueurMot; i++)
                 {
@@ -157,8 +160,8 @@ void ChoisirMot(RandomChooseMot)
                     }
                     else
                     {
-                        MotCache[i] = '\n';
-                        ChangeMotCache[i] = '\n';
+                        MotCache[i] = '\000';
+                        ChangeMotCache[i] = '\000';
                     }
                 }
             }
