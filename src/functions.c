@@ -84,7 +84,7 @@ void ChoisirMot(int RandomChooseMot)
                 }
 
                 strncpy(Mot, chaine, LongueurMot - 1);
-                Mot[LongueurMot - 1] = '\000';
+                Mot[LongueurMot - 1] = '\000'; // remplace le \n par un \000 
 
                 for (int i = 0; i < LongueurMot; i++)
                 {
