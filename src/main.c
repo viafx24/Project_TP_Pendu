@@ -1,10 +1,3 @@
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <ctype.h>
-#include <string.h>
-#include <time.h>
-
 #include "functions.h"
 // #define TAILLE_MAX 100 // Tableau de taille 1000
 
@@ -23,7 +16,7 @@ char Lettre;
 // void ChoisirMot(int RandomChooseMot);
 
 
-int main(int argc, char *argv[])
+int main() 
 {
 
     int NbrMots;
@@ -38,7 +31,7 @@ int main(int argc, char *argv[])
         int LengthMot = strlen(Mot);
 
         printf("Bienvenue dans le Pendu!\n\n");
-        printf("il vous reste %d coups à jouer\n", Nbrcoups);
+        printf("il vous reste %d coups a jouer\n", Nbrcoups);
 
         printf("quel est le mot secret ?%s \n", MotCache);
         printf("Proposez une lettre :");
