@@ -58,7 +58,7 @@ int TirageAleatoire(int NbrMots)
     time_t t; //for random function
     srand((unsigned)time(&t));
     int RandomChooseMot;
-    RandomChooseMot = rand() % NbrMots;
+    RandomChooseMot = rand() % (NbrMots-1) + 1;
     return RandomChooseMot;
 }
 
@@ -85,8 +85,13 @@ void ChoisirMot(int RandomChooseMot)
                 MotCache = malloc(LongueurMot * sizeof(char));       // On alloue de la mémoire pour le tableau
                 ChangeMotCache = malloc(LongueurMot * sizeof(char)); // On alloue de la mémoire pour le tableau
 
+                if (Mot == NULL || MotCache == NULL || ChangeMotCache == NULL)
+                {
+                    exit(0);
+                }
+
                 strncpy(Mot, chaine, LongueurMot - 1);
-                Mot[LongueurMot + 1] = '\000';
+                Mot[LongueurMot - 1] = '\000';
 
                 for (int i = 0; i < LongueurMot; i++)
                 {
